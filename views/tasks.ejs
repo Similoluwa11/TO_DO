@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tasks</title>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+h2 {
+  margin-top: 20px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+}
+
+button {
+  margin-left: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+input[type="text"] {
+  width: 70%;
+  padding: 5px;
+}
+
+.status-checkbox {
+  margin-right: 10px;
+}
+
+
+  </style>
+</head>
+<body>
+  <h1><a href = "/" class = "home-link">Do-It</a></h1>
+  <h2>Pending Tasks</h2>
+  <ul id="pending-tasks">
+    <% tasks.forEach((task) => { %>
+      <%if(task.state == "pending"){%>
+      <li>
+        <form action="/tasks/update-state/<%=task._id%>" method="PUT">
+          <input type="checkbox" class="status-checkbox" name="task<%= task._id %>" value="completed">
+        </form>
+        <label><%= task.name %></label> <br>
+        <label>description: <%= task.description %></label>
+        <form action="/tasks/delete-task/<%=task._id%>" method="POST" style="display: inline;">
+          <input type="hidden" name="taskId" value="<%= task._id %>">
+          <button type="submit" class="delete-button">Delete</button>
+        </form>
+      </li>
+    <% }}) %>
+  </ul>
+  <h2>Completed Tasks</h2>
+  <ul id="completed-tasks">
+    <% tasks.forEach( (task) => { if(task.state == 'completed') { %>
+      <li>
+        <input type="checkbox" class="status-checkbox" name="task<%= task._id %>" value="pending" checked>
+        <label><%= task.name %></label>
+        <form action="/tasks/delete-task/<=task._id%>" method="POST" style="display: inline;">
+          <input type="hidden" name="taskId" value="<%= task._id %>">
+          <button type="submit" class="delete-button">Delete</button>
+        </form>
+      </li>
+    <% }}); %>
+  </ul>
+<a href="/tasks_create" class="add-task-button">Add Task</a>
+
+  <%- include('partials/footer') %>
