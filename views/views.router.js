@@ -20,7 +20,7 @@ router.get('/login', (req, res) => {
     res.render('login', { user: res.locals.user || null });
 })
 
-router.get('/logout', (req, res) => {    
+router.post('/logout', (req, res) => {    
     res.clearCookie('jwt')
     res.render('home')
 });
